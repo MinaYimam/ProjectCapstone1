@@ -1,56 +1,77 @@
 """ A quiz program. """
 """creating dictionaries
 funtion"""
-artsdict = {"Who painted the Mona Lisa?": ["Leonardo da vinci"],
-            "What precious stone is used to make the artist\'s pigment ultramarine?": ["Lapiz lazuli"],
-            "Anish Kapoor\'s bean-shaped Cloud Gate scuplture is a landmark of which city?": ["chicago"]}
+
+# 
+artsdict = {"Who painted the Mona Lisa?": "Leonardo da vinci",
+            "What precious stone is used to make the artist\'s pigment ultramarine?": "Lapiz lazuli",
+            "Anish Kapoor\'s bean-shaped Cloud Gate scuplture is a landmark of which city?": "chicago"}
+
 spacedict = {"Which planet is closest to the sun?": "Mercury",
             "Which planet spins in the opposite direction to all the others in the solar system?": "Venus",
               "How many moons does Mars have?" : '2'}
 #print(dictionary)
 
 
+
 def main():
-    question = input('Would you like art or space question?')
-    validate_answer(question)
+    topic = input('Would you like art or space question?')
+    validate_topic(topic)
    ##print(f"you choose {validated_answer}, here are your questions:  ")
 
     print('End of quiz!')
-    print(f'Your total score on art questions is {total_score} out of 3.')
+    print(f'Your total score on art questions is {total_score} out of 3.')  # total_score is a int variable 
 
 
-def validate_answer(question):
-    #total_score = 0
-    if question.casefold() == 'art':
-        print(f"you choose {question}, here are your questions:  ")
-        for key in artsdict:
-            print(key)
-            answer1 = input('enter your answers and press enter: ')
-            art_answer(answer1)
-    elif question.casefold() == 'space':
-        print(f"you choose {question}, here are your questions:  ")
-        for key, value in spacedict.items():
-            print(key)
+def validate_topic(topic):
+
+    total_score = 0
+
+    if topic.casefold() == 'art':
+        print(f"you choose {topic}, here are your questions:  ")
+        for question, correct_answer in artsdict.items():  # iterate over key.. include the values
+            print(question)  # printing the question
+            user_answer = input('enter your answers and press enter: ')
+            points_earned_for_question = art_answer(user_answer, correct_answer)
+            # total_score = 5, get another question right, points_earned_for_question = 1
+            # what should total_score be now?  6
+            total_score = total_score + points_earned_for_question # add points earned to total score so far
+
+        print(f'your total score is {total_score}')
+
+    elif topic.casefold() == 'space':
+        print(f"you choose {topic}, here are your questions:  ")
+        for question, value in spacedict.items():
+            print(question)
             answer2 = input('enter your answer and press enter: ')
             space_answer(answer2)
     else:
-        while question.casefold() != 'art' or 'space':
+        while topic.casefold() != 'art' or 'space':
             print('This is not a valid topic!')
-            return main()
+            return main()  # todo we'll come back to this 
 
             #return main
-    for value in artsdict.values():
+    for value in artsdict.values():  # for testing
         print(value)
 
 
-def art_answer(answer1):
-    x = [value[i] for value in artsdict.values() for i in range(1)]
-    if answer1.casefold() == x:
-            print(x)
-    elif answer1.casefold() != x[2]:
-            print(x[2])
-    elif answer1.casefold() != x[3]:
-            print(x[1])
+ 
+def art_answer(user_answer, correct_answer):
+    # check if right or wrong? Return points earned for question
+    if user_answer.lower() == correct_answer.lower():   # correct!
+        print('Correct!')
+        return 1  # earned one point 
+    else:
+        print(f'Sorry, that is not the right answer. The correct answer is {correct_answer}.')
+        return 0  # no points 
+
+    # x = [value[i] for value in artsdict.values() for i in range(1)]
+    # if answer1.casefold() == x:
+    #         print(x)
+    # elif answer1.casefold() != x[2]:
+    #         print(x[2])
+    # elif answer1.casefold() != x[3]:
+    #         print(x[1])
     """
     for key, value in artsdict.items():
         while key not in value : True
